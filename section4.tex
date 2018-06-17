@@ -1,0 +1,74 @@
+\documentclass{jsbook}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheoremstyle{withoutdotendstyle}% % Name
+  {}%                      % Space above
+  {}%                      % Space below
+  {\normalfont}%           % Body font
+  {}%                      % Indent amount
+  {\bfseries}%             % Theorem head font
+  {}%                      % Punctuation after theorem head
+  { }%                     % Space after theorem head, ' ', or \newline
+  {}%                      % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{withoutdotendstyle}
+
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{assumption}{仮定}[section]
+
+\numberwithin{theorem}{chapter}% Reset theorem counter with every chapter
+
+\renewcommand\proofname{\bf 証明}
+
+\begin{document}
+\setcounter{chapter}{3}
+
+\chapter{確率積分}
+\section{導入}
+\begin{definition}
+
+\end{definition}
+\begin{definition}
+
+\end{definition}
+\section{情報}
+\section{確率積分}
+\begin{definition}
+
+\end{definition}
+\begin{proposition}
+
+\end{proposition}
+\section{マルチンゲール}
+\begin{proposition}
+
+\end{proposition}
+\begin{definition}
+  確率過程$X$が$\left(\mathcal{F}\right)$-{\bf マルチンゲール}であるとは、以下の性質を満たすことである。
+  \begin{itemize}
+    \item $X$はフィルトレーション$\left\{\methcal{F}_{t}\right\}_{t\geq 0}$について適合的である。
+    \item 任意の$t$について、
+    \begin{align*}
+      E\left[\left|X\left(t\right)\right|\right]<\infty\mbox{。}
+    \end{align*}
+    \item 任意の$s,t\left(s\leq t\right)$ について以下を満たす。
+    \begin{align*}
+      E\left[\left.X\left(t\right)\right|\mathcal{F}_{s}\right]=X\left(s\right)\mbox{。}
+    \end{align*}
+  \end{itemize}
+  ある過程が、任意の$s,t\left(s\leq t\right)$ について不等式
+  \begin{align*}
+    E\left[\left.X\left(t\right)\right|\mathcal{F}_{s}\right]\leq X\left(s\right)
+  \end{align*}
+  を満たす場合、{\bf 優マルチンゲール}であるといい、
+  \begin{align*}
+    E\left[\left.X\left(t\right)\right|\mathcal{F}_{s}\right]\geq X\left(s\right)
+  \end{align*}
+  を満たす場合、{\bf 劣マルチンゲール}であるという。
+\end{definition}
+\end{document}

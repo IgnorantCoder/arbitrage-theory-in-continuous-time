@@ -1,0 +1,58 @@
+\documentclass{jsbook}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheoremstyle{withoutdotendstyle}% % Name
+  {}%                      % Space above
+  {}%                      % Space below
+  {\normalfont}%           % Body font
+  {}%                      % Indent amount
+  {\bfseries}%             % Theorem head font
+  {}%                      % Punctuation after theorem head
+  { }%                     % Space after theorem head, ' ', or \newline
+  {}%                      % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{withoutdotendstyle}
+
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{assumption}{仮定}[section]
+
+\numberwithin{theorem}{chapter}% Reset theorem counter with every chapter
+
+\renewcommand\proofname{\bf 証明}
+
+\begin{document}
+\setcounter{chapter}{6}
+
+\chapter{裁定価格}
+\section{導入}
+\begin{definition}
+  価格過程$B$が無リスク資産の価格であるとは、
+  \begin{align}
+    dB\left(t\right)=r\left(t\right)B\left(t\right)dt
+  \end{align}
+  と書けることである。$r\left(t\right)$は任意の適合過程とする。
+\end{definition}
+\section{条件付き請求権と裁定}
+\begin{definition}
+
+\end{definition}
+\begin{definition}
+
+\end{definition}
+\begin{definition}
+
+\end{definition}
+\begin{definition}
+金融市場における{\bf 裁定} 可能性とは 自己調達的なポートフォリオ$h$が以下を満たすことである。
+\begin{align}
+  V^{h}\left(0\right)&=0\\
+  P\left(V^{h}\left(T\right)\geq 0\right)&=1\\
+  P\left(V^{h}\left(T\right)> 0\right)&>1
+\end{align}
+もし裁定の可能性がない場合、市場は無裁定であるという。
+\end{definition}
+\end{document}

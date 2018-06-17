@@ -1,0 +1,305 @@
+\documentclass{jsbook}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newtheoremstyle{withoutdotendstyle}% % Name
+  {}%                      % Space above
+  {}%                      % Space below
+  {\normalfont}%           % Body font
+  {}%                      % Indent amount
+  {\bfseries}%             % Theorem head font
+  {}%                      % Punctuation after theorem head
+  { }%                     % Space after theorem head, ' ', or \newline
+  {}%                      % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{withoutdotendstyle}
+
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{assumption}{仮定}[section]
+
+\numberwithin{theorem}{chapter}% Reset theorem counter with every chapter
+
+\renewcommand\proofname{\bf 証明}
+
+\begin{document}
+\setcounter{chapter}{9}
+
+\chapter{マルチンゲールアプローチから裁定理論へ}
+この章では、$N+1$個の所与の資産価格過程$S_{0}, S_{1}, \dots, S_{N}$から市場モデルを構成することについて考える。
+一般的には、目的の確率測度$P$のもとでの資産価格過程の時間方向への発展を与えることでモデルを特定する。
+その際に主に問題となるのが以下の事項についてである。
+
+\begin{enumerate}
+  \item 無裁定とするための条件は？
+  \item 市場の完備性のための条件は？
+\end{enumerate}
+
+金融派生商品にマルチンゲールアプローチを適用することで上記の問題に挑戦してみよう。
+裁定価格のための最も一般的なアプローチは計算という観点からも効率的である。
+上記の問題の回答は数理ファイナンスの第一基本定理、第二基本定理と呼ばれており、これを扱っていこう。
+しかし、この結論は極めて一般性が強く強力である一方で、詳細に関しては関数解析の難解な部分に立ち入るため、いくつかの観点については証明のアイデアの構造のみを提示するにとどめておく。
+完全な証明については参考文献を直接参照のこと。
+この定理に深入りすることを望まない読者のために、結果の要約を10.7に載せておく。
+この節は本章の残りの部分とは独立に読むことができる。
+
+\section{ゼロ金利の場合}
+まずは、市場の資産のうちの一つが、金利の付かない無リスク資産である特別な場合について考えてみる。
+このような状況は限定的に聞こえるが、あとで、一般的な状況を、この特別な状況に簡単に変換できることについて説明する。
+
+基本的なセットアップとして、$N$個のリスク資産で構築されている金融市場について考えてみる。このリスク資産の価格過程は次のように表現される。
+\begin{align}
+  S\left(t\right) = \left[
+    \begin{array}{c}
+      S_{1}\left(t\right)\\
+      \vdots\\
+      S_{N}\left(t\right)
+    \end{array}
+  \right]
+\end{align}
+また、前述の無リスク資産を$S_{0}\left(t\right)$とし、ニューメレールとして扱う。また、この節ではこれは定数、すなわち金利ゼロの資産とする。
+
+\begin{assumption}
+  次を仮定する
+  \begin{align}
+    S_{0}\left(t\right)=1, \quad \forall t\geq 0.
+  \end{align}
+\end{assumption}
+この$S_{0}$はゼロ金利の銀行預金口座として考えることができる。
+この定理の最も一般的な書き方では、リスク資産価格過程はセミマルチンゲールであることが許容されているが、今回の目的においては、すべての価格過程が有限個のウィーナー過程からなる確率的な拡散過程をもつという仮定で充分である。
+今回の問題は、無裁定条件および、市場が完備となるための条件を探し出すことであった。
+
+この計画のための本格的な議論の前に、許容される\footnote{原文ではadmissibleと表現されている。}ポートフォリオ集合について少しだけ厳密にしておこう。
+事前準備として、純粋\footnote{原文ではnaiveと表現されている。}ポートフォリオ過程を、任意の適合過程$h\left(t\right)=\left[ h_{0}\left(t\right), \dots ,h_{N}\left(t\right)\right]$として定義する。
+ただ、純粋自己調達ポートフォリオという分類は、無理のない定理構築のためには大きすぎて、次のような不都合な結果が従う。
+
+\begin{theorem}
+  資産$S_{1}\dots S_{N}$のうちひとつでも全ての時刻において非ゼロな拡散過程をもつ場合、純粋ポートフォリオを許容すると、モデルは裁定を許容する。
+\end{theorem}
+\begin{proof}
+  証明のアイデアは、ルーレットにおける、いわゆる「倍がけ戦略」である。この戦略では、まず黒に1ドルを賭ける。もし当たれば、そこでゲームをやめることで、1ドルの勝ちになる。もし、外れた場合は2ドルを新たに賭け直す。もし、そこで当たればトータルで1ドル勝つことになる。さらに、外れたのであれば、また新たに4ドルを賭け直す。
+  つまり、勝てばそこでゲームをやめ、負けている間は掛け金を倍にして続ける戦略である。このようにすれば、黒が当たりとなる確率が正である限り(赤と黒のバランスが取れている必要すらない)、確実に(確率1で)当たるときがくる\footnote{無限ルーレット空間において黒を含まない事象の集合は、全てが赤である要素のみで、このような単一要素の集合は測度$0$である。}し、そのときのトータル収支は1ドルの勝ちになる。
+
+  これがルーレットにおける裁定であるが、現実にはこの戦略はうまくいかない。なぜなら、実際に1ドルの勝ちにたどり着くまでに、巨額の含み損を抱えることになるため、資金調達のために無限の信用力を必要とする。
+  また、勝つまでに要する時間は確率$1$で有限であるが、演繹的には無限である。
+  勝つまでに、日没(とプレイヤーの破産)が訪れる確率は高い。
+
+  現実世界で、無限の信用力がなかったとしても、理論的なフレームワークで信用力を無限とすることはできる。また、このルーレット・倍がけ戦略は、有限時間な市場モデルで簡単に再現できる。
+  もし、$t=1$でやめる場合、離散時間$1 - \frac{1}{n}(n = 1, 2, \dots)$で投資を行う。
+  まずリスク資産に、銀行ローンで調達した1ドルを投資する。投資をした額だけ勝ったらすぐやめ、もしそうでなければさらに銀行ローンで資金を調達して倍額を投資する。実際に、この裁定取引を任意の単位時間で繰り返すことができることは明らかで、確率$1$で無限に儲けることができる。
+\end{proof}
+
+無理のない定理構築のためには、許容される戦略を制限して、このような倍がけ戦略のようなものは除外しなくてはならない。
+そのための方法はたくさん存在するが、もっともよく使われるものを以下に与える。
+コンパクトな表記法にするためにリスク資産のポートフォリオ過程を$h_{S}\left(t\right)$と略記する。今、$h_{S}\left(t\right)=\left[h_{1}\left(t\right),\dots,h_{N}\left(t\right)\right]$であり、無リスク資産を含むポートフォリオ全体は$h=\left[h_{0}, h_{S}\right]$と書ける。
+
+\begin{definition}
+  \mbox{}
+  \begin{itemize}
+    \item 任意の過程$h=\left[h_{0}, h_{S}\right]$の価格過程$V\left(t;h\right)$を
+    \begin{align}
+      V\left(t;h\right)=h_{0}\left(t\right)\cdot 1+\sum_{i=1}^{N}h_{i}\left(t\right)S_{i}\left(t\right),
+    \end{align}
+    もしくは、略記形式として
+    \begin{align}
+      V\left(t;h\right) = h_{0}\left(t\right) \cdot 1 + h_{S}\left(t\right)S\left(t\right)
+    \end{align}
+    とする。
+    \item 適合過程$h_{S}$が{\bf 許容可能}\footnote{原文ではadmissibleと表現されている。}とは、ある非負な実数$\alpha$が存在して($h_{S}$の選び方に依存するかもしれない)、
+    \begin{align}
+      \int_{0}^{t}h_{S}\left(u\right)dS\left(u\right)\geq-\alpha, \quad\forall t\in\left[0, T\right].
+    \end{align}
+    を満たすことである。このとき過程$h\left(t\right)=\left[h_{0}\left(t\right),h_{S}\left(t\right)\right]$を{\bf 許容可能ポートフォリオ}と呼ぶ。
+    \item 許容可能ポートフォリオが{\bf 自己調達的}\footnote{原文ではself-financingと表現されている。}であるとは、
+    \begin{align}
+      V\left(t;h\right)=V\left(0;h\right)+\int_{0}^{t}h_{S}\left(u\right)dS\left(u\right),
+    \end{align}
+    つまり、
+    \begin{align}
+      dV\left(t;h\right)=h_{S}\left(t\right)dS\left(t\right),
+    \end{align}
+    を満たすことである。
+  \end{itemize}
+\end{definition}
+定義6.2とくらべると、正確には
+\begin{align*}
+  dV\left(t;h\right)=h_{0}\left(t\right)dS_{0}\left(t\right) + h_{S}\left(t\right)dS\left(t\right),
+\end{align*}
+となるべきであるが、この節では$S_{0}\equiv 1$であるので、$dS_{0}\equiv 0$であるため自己調達条件は(10.7)の形となる。
+これはとても単純だが重要な事実で、次のような結果を導く。
+
+\begin{lemma}
+  任意の適合過程$h_{S}$が許容可能条件(10.5)を満たすとき、任意の実数$x$について、唯一の適合過程$h_{0}$が存在して、
+  \begin{itemize}
+    \item $h=\left[h_{0}, h_{S}\right]$で定義される$h$は自己調達的である。
+    \item 価格過程は
+    \begin{align}
+      V\left(t; h\right) = x + \int_{0}^{t}h_{S}\left(u\right)dS\left(u\right)
+    \end{align}
+    で与えられる。
+  \end{itemize}
+  特に、初期資金$0$の自己調達ポートフォリオを用いて時刻$T$に到達可能なポートフォリオ価値の空間$\mathcal{K}_{0}$は、
+  \begin{align}
+    \mathcal{K}_{0}=\left\{\left.\int_{0}^{T}h_{S}\left(t\right)dS\left(t\right)\right|h_{S}\mbox{は許容可能}\right\}.
+  \end{align} 
+\end{lemma}
+\begin{proof}
+  $h_{0}$を次のように定義する。
+  \begin{align*}
+    h_{0}\left(t\right) = x + \int_{0}^{t}h_{S}\left(u\right)dS\left(u\right) - h_{S}\left(t\right)S\left(t\right).
+  \end{align*}
+  このとき、価格過程の定義により、
+  \begin{align*}
+    V\left(t;h\right) = h_{0}\left(t\right) + h_{S}\left(t\right)S\left(t\right) = x + \int_{0}^{t}h_{S}\left(u\right)dS\left(u\right)
+  \end{align*}
+  であるため、(10.8)は満たされている。
+  両辺を微分して、
+  \begin{align*}
+    dV\left(t;h\right)=h_{S}\left(t\right)dS\left(t\right),
+  \end{align*}
+  となるため、$h$は自己調達的である。
+  (10.9)に関しては自明である。\footnotemark
+  \footnotetext{
+    初期資金0の自己調達ポートフォリオとは、$V\left(0;h\right)=0$の自己調達ポートフォリオで$h$のことである、これは(10.8)より、$x=0$のときである。
+    また、定義より自己調達的なポートフォリオは許容可能である。
+    このとき、価格過程は
+    \begin{align*}
+      V\left(t; h\right) = \int_{0}^{t}h_{S}\left(u\right)dS\left(u\right)
+    \end{align*}
+    となる。
+    この価格過程が時刻$T$で到達可能な空間は(10.9)となる。
+  }
+\end{proof}
+(10.9)の主張の特徴は、$S_{0}\equiv 1$である事による。\footnote{$x$が$t$に依存する場合$h_{0}$由来の積分が残ってしまう。}
+
+\section{無裁定}
+引き続き$S_{0}\equiv 1$の仮定を残したままで、有限時間$\left[0, T\right]$上での市場モデル(10.1)について考える。
+
+まず、マルチンゲール測度の定義を与える。
+\begin{definition}
+  次の性質を満たす$\mathcal{F}_{t}$上の確率測度$Q$は、市場モデル(10.1)において、$S_{0}$をニューメレールとした、時刻$\left[0, T\right]$での同値マルチンゲール測度と呼ばれる。
+  \begin{itemize}
+    \item $Q$は$\mathcal{F}$上で$P$と同値。
+    \item 価格過程$S_{0}, S_{1}, \dots ,S_{N}$は、全て$Q$上で、時刻$\left[0, T\right]$においてマルチンゲールである。同値マルチンゲール測度は、しばしば「マルチンゲール測度」または「EMM」と呼ばれる。
+    もし、$Q\sim P$で$S_{0}, S_{1}, \dots , S_{N}$が局所マルチンゲールになる場合、$Q$を局所マルチンゲール測度と呼ぶ。
+  \end{itemize}
+\end{definition}
+仮定より、$S_{0}$は常にマルチンゲールである。
+裁定理論全体の主たる結果は、次のように厳密に定式化されていない定理である。
+
+\begin{definition}[数理ファイナンスの第一基本定理]
+モデルが無裁定であることの本質的な必要十分条件は、(局所)マルチンゲール測度$Q$が存在することである。
+\end{definition}
+この広く引用されている結果は、「本質的な」という部分を除けば、誰もが知っているという意味で「フォークの定理」の性質を持っていて、\footnote{証明をつけようと思えばつけられると誰もが思っているが、実際には誰一人としてその証明をつけたことがない定理であるという意味。}、実際正しい。
+以下では「本質的な」の部分について議論をし、より正確な定式化を行う。
+この定理を厳密に定式化したものの、完全な証明は非常に難しく技術的であるため、本書の範囲を大きく超えてしまう。
+しかし、主たるアイデアは非常に単純で直感的である。これらのアイデアについてのみ説明し、その上で技術的な問題がどこに存在するのかについて示す。
+完全な証明について興味のある読者はノートを参照のこと。
+
+\subsection{証明のあらすじ}
+この節では形式張らないずに第一定理の証明の主たるアイデアについて議論し、直面する問題を指摘する。
+証明は２つの部分で構成される。
+\begin{itemize}
+  \item EMMの存在が無裁定を意味する
+  \item 無裁定であることがEMMの存在を意味する
+\end{itemize}
+前者は比較的簡単だが、後者はとても困難である。
+\begin{proof}[{\bf I:EMMの存在が無裁定を意味することについて}]
+  本パートは驚くほど簡単である。まず、マルチンゲール測度$Q$の存在を仮定する。
+  これは、ウィーナー過程によって駆動される世界においてすべての価格過程が測度$Q$のもとでドリフトを持たないことを意味する(11章のギルザノフの定理参照)。すなわち$Q$のもとでは、
+  \begin{align}
+    dS_{i}\left(t\right) = S_{i}\left(t\right)\sigma_{i}\left(t\right)dW^{Q}\left(t\right), \quad i = 1, \dots , N
+  \end{align}
+  とかける。ここでは、$W^{Q}$は多次元の$Q$-ウィーナー過程で$\sigma_{i}$は適合的な行ベクトル過程とする。
+
+  今、裁定取引の可能性がないことについて証明したいので、さしあたっては、一様有界を仮定した自己調達的な過程$h$について、これに対応した価格過程が以下を満たすとする。
+  \begin{align}
+    P\left(V\left(T;h\right)\geq 0\right) = 1\mbox{、}\\
+    P\left(V\left(T;h\right)> 0\right) > 0\mbox{。}
+  \end{align}
+  $V\left(0;h\right)> 0$を示すことで、無裁定を証明するために、潜在的な裁定ポートフォリオとして$h$を見てみる。
+  $Q\sim P$であるので、上記の関係は次のようにも書ける。
+  \begin{align}
+    Q\left(V\left(T;h\right)\geq 0\right) = 1\mbox{、}\\
+    Q\left(V\left(T;h\right)> 0\right) > 0\mbox{。}
+  \end{align}
+  $h$は自己調達的であるため($dS_{0}=0$であることを思い出そう)、
+  \begin{align}
+    dV\left(t;h\right)=\sum_{i=1}^{N}h_{i}\left(t\right)S_{i}\left(t\right)\sigma_{i}\left(t\right)dW^{Q}\left(t\right)\footnotemark
+  \end{align}
+  とかけるため(また有界性から)、$V\left(t;h\right)$は$Q$-マルチンゲールである。
+  \footnotetext{
+  \begin{align*}
+    dV\left(t; h\right)&=h_{S}\left(t\right)dS\left(t\right)\\
+                       &=
+                       \left(
+                        \begin{array}{ccc}
+                          h_{1} & \dots & h_{N}
+                        \end{array}
+                       \right)
+                       \left(
+                        \begin{array}{c}
+                          dS_{1}\\
+                          \vdots\\
+                          dS_{N}
+                        \end{array}
+                       \right)\\
+                       &=\sum_{i = 1}^{N}h_{i}dS_{i}\\
+                       &=\mbox{(10.15)の右辺}
+  \end{align*}
+  }
+  このマルチンゲール性から、
+  \begin{align}
+    V\left(0;h\right)=E^{Q}\left[V\left(T;h\right)\right]\mbox{。}
+  \end{align}
+  しかし、(10.13)-(10.14)は$E^{Q}\left[V\left(T;h\right)\right]>0$を意味しており\footnotemark、すなわち$V\left(0;h\right)>0$である。
+  \footnotetext{
+    (10.13)は$V\left(T;h\right)$がほとんど確実に非負であることを、(10.14)は$V\left(T;h\right)$が正となる確率が真に正であることを主張している。
+  }
+  つまり、(10.11-10.12)は$V\left(0;h\right)>0$を意味しており、有界な裁定ポートフォリオがないことを示している。
+
+  有界でないが、許容可能な場合についてはもう少し繊細に扱う必要がある。ただそれでもこれを示すことは可能で、下に有界な優マルチンゲール性を利用できる。
+  故に、
+  \begin{align}
+    V\left(0;h\right)\geq E^{Q}\left[V\left(T;h\right)\right]>0\mbox{。}
+  \end{align}
+  以上により示された。
+\end{proof}
+\begin{proof}[{\bf II:無裁定がEMMの存在を意味することについて}]
+  これは第一定理の本当に難しい部分である。証明には、関数解析の難解な結果を必要とするが基本となるアイデアは次のようなものである。
+
+  積分可能性の問題を避けるため、全ての資産価格過程は有界であることを仮定し、「裁定」を「有界裁定」として解釈する。
+  無裁定を仮定し、EMMの存在を証明したい。より専門的に言い換えれば測度$P$をマルチンゲール測度$Q$に変換する$\mathcal{F}_{t}$上のラドンニコディム微分$L$の存在を証明したい。
+  3章の単純な1期間モデルに触発されて、何らかの凸平面分離定理のようなものを探すのも、関数解析の領域に問題を置くことも自然である。
+  ラドンニコディム微分$L$は$L_{1}$でないといけないため、$L_{\infty}$と$L_{1}$間の双対性を利用しようとするのも自然なことである。そのために集合$L_{1}$と$L_{\infty}$を定義する。
+  今、$L_{1}$は$L_{1}\left(\Omega, \mathcal{F}_{T}, P\right)$、$L_{\infty}$は$L_{\infty}\left(\Omega, \mathcal{F}_{T}, P\right)$を表す($\mathcal{K}_{0}$は初期費用ゼロの自己調達的なポートフォリオが到達可能な空間であることを再度示しておく)。
+  \begin{align}
+    &\mathcal{K} = \mathcal{K}_{0}\cap L^{\infty},\\
+    &L^{\infty}_{+} = L^{\infty}\mbox{内の非負な乱数}\\
+    &C=\mathcal{K} - L^{\infty}_{+}
+  \end{align}
+  したがって、空間$\mathcal{K}$は全ての初期費用ゼロの自己調達的なポートフォリオによって到達可能な有界性の要請から構成される。集合$C$は空間$\mathcal{K}$内の要請によって支配されている要請である。$C$内の要請は、お金を捨てることを許容したとき、初期費用ゼロの自己調達的なポートフォリオによって到達可能である。
+
+  無裁定を仮定しているため、
+  \begin{align}
+    C\cap\mathcal{L}^{\infty}_{+}=\left\{0\right\}\mbox{。}
+  \end{align}
+  今$C$と$\mathcal{L}^{\infty}_{+}$は$\mathcal{L}^{\infty}$で凸集合である。このふたつの集合はただ一点のみを共有しており(これはこの議論において、かなり重要なポイントである)、この点においては凸平面分離定理を参照したい。定理により、非ゼロな乱数$L\in L_{1}$の存在が保証されてかつ、
+  \begin{alignat}{2}
+    &E^{P}\left[LX\right]\geq 0, &\quad\forall& X\in\mathcal{L}^{\infty}_{+},\\
+    &E^{P}\left[LX\right]\leq 0, &\quad\forall& X\in C\mbox{。}
+  \end{alignat}
+  ひとまず、議論のこの部分を実行してみることができる。(10.19)式より、$L\geq 0$であることが推論されて、さらに適当にスケーリングすることによって$E^{P}\left[L\right]=1$とすることができる。したがって、$\mathcal{F}_{T}$上で$dQ=LdP$となるような新しい測度$Q$によって定義されるラドンニコディム微分として$L$を使うことができて、$Q$はマルチンゲール測度の自然な候補である。
+\end{proof}
+
+\end{document}
+
+Although the main ideas above are good, there are two hard technical problems which must be dealt with:
+
+
+• Since L1 is not the dual of L∞ (in the norm topologies) we can not use a standard convex separation theorem. An application of a standard Banach space separation theorem would provide us with a linear functional L ∈ (L∞)* such that 〈X, L〉 ≥ 0 for all  and 〈X, L〉 ≤ 0 for all X in C, but since L1 is strictly included in (L∞)* we have no guarantee that L can be represented by an element in L1. We thus need a stronger separation theorem than the standard one.
+
+Björk, Tomas. Arbitrage Theory in Continuous Time (Oxford Finance Series) (Kindle Locations 3291-3297). OUP Oxford. Kindle Edition.
+Björk, Tomas. Arbitrage Theory in Continuous Time (Oxford Finance Series) (Kindle Locations 3290-3291). OUP Oxford. Kindle Edition.
